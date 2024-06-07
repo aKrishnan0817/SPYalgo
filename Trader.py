@@ -34,6 +34,9 @@ class Trader:
                 ReturnList.append((self.tradeData.loc[i + 1, 'TradePrice']-self.tradeData.loc[i, 'TradePrice'])*contractValue)
         return ReturnList
 
+    def getLastTrade(self):
+        return self.tradeData.loc[len(self.tradeData)-1,"Position"]
+
     def getTradeInfo(self,contractValue=50):
         ReturnList = self.getReturnList(contractValue)
         return {"Total Return" :sum(ReturnList),
