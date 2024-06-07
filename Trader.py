@@ -34,8 +34,17 @@ class Trader:
                 ReturnList.append((self.tradeData.loc[i + 1, 'TradePrice']-self.tradeData.loc[i, 'TradePrice'])*contractValue)
         return ReturnList
 
-    def getLastTrade(self):
+    def getLastTradePos(self):
+        if len(self.tradeData) == 0:
+            return 0
         return self.tradeData.loc[len(self.tradeData)-1,"Position"]
+
+    def getLastTradePrice(self):
+        return self.tradeData.loc[len(self.tradeData)-1,"Position"]
+
+    def getLR(self):
+        rdf= pd.DataFrame(self.getReturnList())
+        return rdf[rdf<0].count() / (len(rdf)-rdf[rdf==0].count())
 
     def getTradeInfo(self,contractValue=50):
         ReturnList = self.getReturnList(contractValue)
