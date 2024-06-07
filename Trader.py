@@ -27,15 +27,15 @@ class Trader:
 
     def getReturnList(self,contractValue=50):
         ReturnList =[]
-        for i in range(0,len(tradeData)):
+        for i in range(0,len(self.tradeData)):
             if self.tradeData.loc[i,'Position'] == -1:
                 ReturnList.append((self.tradeData.loc[i,'TradePrice']-self.tradeData.loc[i+1,'TradePrice'])*contractValue)
-            elif tradeData.loc[i,'Position'] == 1:
+            elif self.tradeData.loc[i,'Position'] == 1:
                 ReturnList.append((self.tradeData.loc[i + 1, 'TradePrice']-self.tradeData.loc[i, 'TradePrice'])*contractValue)
         return ReturnList
 
     def getTradeInfo(self,contractValue=50):
-        self.getReturnList(contractValue)
+        ReturnList = self.getReturnList(contractValue)
         return {"Total Return" :sum(ReturnList),
                 "Max Return" : max(ReturnList),
                 "Min Return" : min(ReturnList)}

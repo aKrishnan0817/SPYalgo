@@ -16,7 +16,7 @@ class AlgoTools:
         return self.tickData.loc[currTime,"price"]-self.tickData.loc[currTime-1,"price"]
 
     def getTimeDelta(self,currTime):
-        return (df.loc[currTime,"Time2"]-df.loc[currTime-1,"Time2"]).total_seconds()
+        return (self.tickData.loc[currTime,"Time2"]-self.tickData.loc[currTime-1,"Time2"]).total_seconds()
 
     def getRate(self,currTime):
         return self.getPriceDelta(currTime) / self.getTimeDelta(currTime)
@@ -25,14 +25,10 @@ class AlgoTools:
         return self.getRate(currTime)-self.getRate(currTime-1)/self.getPriceDelta(currTime)
 
     def checkNextDay(self,currTime):
-        timeDiff = datetime.strptime(df.loc[currTime,"date"], '%m/%d/%Y').date() - datetime.strptime(df.loc[currTime-1,"date"], '%m/%d/%Y').date()
+        timeDiff = datetime.strptime(self.tickData.loc[currTime,"date"], '%m/%d/%Y').date() - datetime.strptime(self.tickData.loc[currTime-1,"date"], '%m/%d/%Y').date()
         return timeDiff.days >0
 
     def getData(self,startTime,endTime):
         startIndex = self.tickData[self.tickData.date == startTime].index[0]
         endIndex = self.tickData[self.tickData.date == endTime].index[-1] +1
-        return tickData[startIndex:endIndex]
-
-
-
-    
+        return self.tickData[startIndex:endIndex]
