@@ -5,22 +5,22 @@ import pickle
 
 class Trader:
     def __init__(self):
-        self.tradeData = pd.DataFrame(dict(Position = [],TradePrice = [], TradeTime = []))
+        self.tradeData = pd.DataFrame(dict(Position = [],TradePrice = [], TradeTime = [], Method=[]))
 
-    def goLong(self,currTimeRow):
+    def goLong(self,currTimeRow, MOT = None):
         price = currTimeRow["price"]
         time = currTimeRow["Time2"]
-        self.tradeData = pd.concat([self.tradeData, pd.DataFrame([[1,price,time]], columns=self.tradeData.columns) ], ignore_index=True)
+        self.tradeData = pd.concat([self.tradeData, pd.DataFrame([[1,price,time,MOT]], columns=self.tradeData.columns) ], ignore_index=True)
 
-    def goShort(self,currTimeRow):
+    def goShort(self,currTimeRow, MOT = None):
         price = currTimeRow["price"]
         time = currTimeRow["Time2"]
-        self.tradeData = pd.concat([self.tradeData, pd.DataFrame([[-1,price,time]], columns=self.tradeData.columns) ], ignore_index=True)
+        self.tradeData = pd.concat([self.tradeData, pd.DataFrame([[-1,price,time,MOT]], columns=self.tradeData.columns) ], ignore_index=True)
 
-    def closeOut(self,currTimeRow):
+    def closeOut(self,currTimeRow, MOT = None):
         price = currTimeRow["price"]
         time = currTimeRow["Time2"]
-        self.tradeData = pd.concat([self.tradeData, pd.DataFrame([[0,price,time]], columns=self.tradeData.columns) ], ignore_index=True)
+        self.tradeData = pd.concat([self.tradeData, pd.DataFrame([[0,price,time,MOT]], columns=self.tradeData.columns) ], ignore_index=True)
 
     def getTradeData(self):
         return self.tradeData
@@ -40,7 +40,7 @@ class Trader:
         return self.tradeData.loc[len(self.tradeData)-1,"Position"]
 
     def getLastTradePrice(self):
-        return self.tradeData.loc[len(self.tradeData)-1,"Position"]
+        return self.tradeData.loc[len(self.tradeData)-1,"TradePrice"]
 
     def getLR(self):
         rdf= pd.DataFrame(self.getReturnList())
